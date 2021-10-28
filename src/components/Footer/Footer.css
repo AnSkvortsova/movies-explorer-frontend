@@ -1,0 +1,31 @@
+.footer {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: #000000;
+}
+
+.footer__subtitle {
+  text-align: center;
+  color: #A0A0A0;
+  margin: 79px 0 20px;
+}
+
+.footer__copyright {
+  margin: 20px 0 20px;
+}
+
+.footer__links{
+  margin: 20px 0 20px;
+}
+
+.footer__link {
+  text-decoration: none;
+  color: #000000;
+  margin: 0 0 0 20px;
+}
+.footer__link:hover {
+  cursor: pointer;
+	opacity: 0.6;
+	transition: opacity 0.2s linear;
+}

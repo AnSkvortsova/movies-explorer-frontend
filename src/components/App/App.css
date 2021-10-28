@@ -1,0 +1,29 @@
+.app {
+  font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
+  background-color: #FFFFFF;
+}
+.app_color_pink {
+  background-color: #F3C1F8;
+}
+.app_color_grey {
+  background-color: #F5F5F5;
+}
+
+.app__section {
+  width: 1140px;
+  margin: 0 auto;
+}
+
+.app__lineB {
+  border: solid 1px #000000;
+}
+.app__lineG {
+  border: solid 1px #E8E8E8;
+}
+
+.app__flex {
+  display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
