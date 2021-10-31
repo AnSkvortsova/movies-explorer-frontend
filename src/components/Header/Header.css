@@ -1,0 +1,30 @@
+.header {
+  padding: 18px 0;
+}
+
+.header__logo {
+  width: 38px;
+}
+
+.header__authButton {
+  height: 32px;
+  border: transparent;
+  box-sizing: border-box;
+  border-radius: 3px;
+  outline: none;
+  background-color: transparent;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 8px 20px;
+  margin-right: 10px;
+
+}
+.header__authButton:hover {
+  background-color: #000000;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+.header__authButton:last-child {
+  margin-right: 0;
+}

@@ -3,26 +3,27 @@
   font-size: 13px;
   line-height: 16px;
   color: #000000;
+  padding: 79px 0 20px;
 }
 
 .footer__subtitle {
   text-align: center;
   color: #A0A0A0;
-  margin: 79px 0 20px;
+  margin: 0 0 20px;
 }
 
 .footer__copyright {
-  margin: 20px 0 20px;
+  margin: 20px 0 0;
 }
 
 .footer__links{
-  margin: 20px 0 20px;
+  margin-top: 20px;
 }
 
 .footer__link {
   text-decoration: none;
   color: #000000;
-  margin: 0 0 0 20px;
+  margin-left: 20px;
 }
 .footer__link:hover {
   cursor: pointer;

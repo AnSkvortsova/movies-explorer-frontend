@@ -26,4 +26,7 @@
 	align-items: flex-start;
 	justify-content: space-between;
 }
+.app__flex_center {
+  align-items: center;
+}
 

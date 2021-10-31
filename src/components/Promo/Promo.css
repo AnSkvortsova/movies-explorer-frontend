@@ -42,7 +42,7 @@
   padding: 0;
 }
 .promo__button:hover {
+  background-color: #000000;
+  color: #FFFFFF;
   cursor: pointer;
-	opacity: 0.6;
-	transition: opacity 0.2s linear;
 }
