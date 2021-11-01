@@ -2,6 +2,8 @@ import './App.css';
 import { Header } from '../Header/Header'; 
 import { Main } from '../Main/Main';
 import { Footer } from '../Footer/Footer'; 
+import { SearchForm } from '../SearchForm/SearchForm';
+import { MoviesCardList } from '../MoviesCardList/MoviesCardList';
 
 function App() {
   return (
@@ -10,6 +12,8 @@ function App() {
         <Header />
       </div>
       <Main />
+      <SearchForm />
+      <MoviesCardList />
       <Footer />
     </div>
   );

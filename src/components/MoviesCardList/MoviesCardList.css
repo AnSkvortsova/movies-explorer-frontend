@@ -1,0 +1,5 @@
+.moviesCardList {
+  padding: 70px 0 10px;
+  display: grid;
+  grid-gap: 40px;
+}
