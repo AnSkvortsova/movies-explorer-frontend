@@ -4,7 +4,7 @@ import searchIcon from '../../images/search-icon.svg'
 export function SearchForm() {
   return (
     <section className="searchForm app__section">
-      <forma className="searchForm__forma app__flex app__flex_center">
+      <form className="searchForm__form app__flex app__flex_center">
         <div className="searchForm__inputSection app__flex app__flex_center">
           <img className="searchForm__icon" src={searchIcon} alt="лупа" />
           <input className="searchForm__input" placeholder="Фильм" type="search" required />
@@ -13,7 +13,8 @@ export function SearchForm() {
         <div className="searchForm__checkboxSection">
           <FilterCheckbox />
         </div>
-      </forma>
+      </form>
+      <div className="app__lineG"></div>
     </section>
   );
 }
