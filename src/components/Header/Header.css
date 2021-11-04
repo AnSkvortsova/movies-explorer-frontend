@@ -2,11 +2,21 @@
   padding: 18px 0;
 }
 
-.header__logo {
-  width: 38px;
+.header__list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
 }
 
-.header__authButton {
+.header__item {
+  display: inline;
+  padding-right: 10px;
+}
+.header__item:last-child {
+  padding-right: 0;
+}
+
+.header__link {
   height: 32px;
   border: transparent;
   box-sizing: border-box;
@@ -16,14 +26,12 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
+  text-decoration: none;
+  color: #000000;
   padding: 8px 20px;
-  margin-right: 10px;
 }
-.header__authButton:hover {
+.header__link:hover {
   background-color: #000000;
   color: #FFFFFF;
   cursor: pointer;
-}
-.header__authButton:last-child {
-  margin-right: 0;
 }

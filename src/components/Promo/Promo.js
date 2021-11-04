@@ -10,7 +10,7 @@ export function Promo() {
         </div>
         <img className="promo__img" src={promoImg} alt="промо картинка" />
       </section>
-      <button className="promo__button">Узнать больше</button>
+      <a className="promo__link" href="#aboutProject__title">Узнать больше</a>
     </article>
   );
 }
