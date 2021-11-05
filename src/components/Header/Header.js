@@ -5,7 +5,7 @@ import { Logo } from '../Logo/Logo';
 
 export function Header() {
   return (
-    <header className="header app__section app__flex app__flex_center">
+    <header className="header app__section">
       <Logo />
       <ul className="header__list">
         <li className="header__item"><Link to="/signup" className="header__link">Регистрация</Link></li>

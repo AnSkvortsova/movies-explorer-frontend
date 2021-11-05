@@ -5,7 +5,7 @@ export function AboutMe() {
     <article className="aboutMe app__section">
       <h2 className="aboutMe__title">Студент</h2>
       <div className="app__lineB"></div>
-      <section className="app__flex">
+      <section className="aboutMe__flex">
         <div className="aboutMe__content">
           <h3 className="aboutMe__name">Анастасия</h3>
           <p className="aboutMe__subtitle">Фронтенд-разработчик, 34 года</p>

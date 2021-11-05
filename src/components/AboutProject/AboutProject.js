@@ -3,7 +3,7 @@ export function AboutProject() {
     <article className="aboutProject app__section">
       <h2 className="aboutProject__title" id="aboutProject__title">О проекте</h2>
       <div className="app__lineB"></div>
-      <section className="app__flex">
+      <section className="aboutProject__flex">
         <div className="aboutProject__content">
           <h3 className="aboutProject__contentTitle">Дипломный проект включал 5 этапов</h3>
           <p className="aboutProject__contentText">Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.</p>

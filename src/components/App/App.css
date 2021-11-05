@@ -30,3 +30,18 @@
   align-items: center;
 }
 
+@media (max-width: 1180px) {
+  .app__section {
+    width: 708px
+  }
+}
+
+@media (max-width: 740px) {
+  .app__section {
+    width: 300px
+  }
+
+  .app__flex {
+    flex-direction: column;
+  }
+}

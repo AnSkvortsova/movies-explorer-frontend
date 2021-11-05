@@ -16,6 +16,9 @@
 }
 
 .portfolio__item {
+  display: flex;
+	align-items: center;
+	justify-content: space-between;
   margin: 20px 0 19px;
 }
 .portfolio__item:first-child {
@@ -34,10 +37,44 @@
 }
 
 .portfolio__arrow {
-  width: 29px;
+  width: 16px;
 }
 .portfolio__arrow:hover {
   cursor: pointer;
 	opacity: 0.6;
 	transition: opacity 0.2s linear;
+}
+
+@media (max-width: 1180px) {
+  .portfolio {
+    padding: 0 0 90px;
+  }
+
+  .portfolio__text {
+    font-size: 28px;
+  }
+
+  .portfolio__arrow {
+    width: 13px;
+  }
+}
+
+@media (max-width: 740px) {
+  .portfolio {
+    padding: 0 0 70px;
+  }
+
+  .portfolio__title {
+    font-size: 14px;
+    margin: 0 0 40px;
+  }
+
+  .portfolio__text {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .portfolio__arrow {
+    width: 10px;
+  }
 }
