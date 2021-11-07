@@ -6,6 +6,7 @@ export function Movies() {
     <main className="movies">
       <SearchForm />
       <MoviesCardList />
+      <button className="movies__button">Ещё</button>
     </main>
   );
 }

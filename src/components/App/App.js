@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import './App.css';
@@ -12,8 +12,41 @@ import { Register } from '../Register/Register';
 import { Login } from '../Login/Login';
 import { Footer } from '../Footer/Footer'; 
 import { PageNotFound } from '../PageNotFound/PageNotFound';
+import { MenuPopup } from '../MenuPopup/MenuPopup';
 
 function App() {
+  // попапы
+  const [isMenuPopupOpen, setMenuPopupState] = useState(false);
+
+  function handleMenuPopupClick() {
+    setMenuPopupState(true);
+  }
+
+  function closeMenuPopup() {
+    setMenuPopupState(false);
+  }
+
+  // обработчик Escape и overlay
+  useEffect(() => {
+    const closeByEscape = (evt) => {
+      if(evt.key === 'Escape') {
+        closeMenuPopup();
+      };
+    };
+    document.addEventListener('keydown', closeByEscape);
+    return () => document.removeEventListener('keydown', closeByEscape);
+  }, []);
+
+  useEffect(() => {
+    const closeByOverlay = (evt) => {
+      if(evt.target.classList.contains('menuPopup_opend')) {
+        closeMenuPopup();
+      };
+    };
+    document.addEventListener('click', closeByOverlay);
+    return () => document.removeEventListener('click', closeByOverlay);
+  }, []);
+
   return (
     <div className="app">
       <Switch>
@@ -26,19 +59,25 @@ function App() {
         </Route>
 
         <Route path="/movies">
-          <Navigation />
+          <Navigation 
+            onMenuPopup={handleMenuPopupClick}
+          />
           <Movies />
           <Footer />
         </Route>
 
         <Route path="/saved-movies">
-          <Navigation />
+          <Navigation 
+            onMenuPopup={handleMenuPopupClick}
+          />
           <SavedMovies />
           <Footer />
         </Route>
 
         <Route path="/profile">
-          <Navigation />
+          <Navigation 
+            onMenuPopup={handleMenuPopupClick}
+          />
           <Profile />
         </Route>
 
@@ -54,6 +93,11 @@ function App() {
           <PageNotFound />
         </Route>
       </Switch>
+
+    <MenuPopup 
+      isOpen={isMenuPopupOpen}
+      onClose={closeMenuPopup}
+    />
     </div>
   );
 }

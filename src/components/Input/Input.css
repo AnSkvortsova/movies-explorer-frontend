@@ -12,7 +12,7 @@
 }
 
 .input__form {
-  min-height: 380px;
+  height: 50vh;
   display: flex;
   flex-direction: column;
 }
@@ -98,4 +98,32 @@
   cursor: pointer;
 	opacity: 0.6;
 	transition: opacity 0.2s linear;
+}
+
+@media (max-width: 460px) {
+  .input {
+    padding: 56px 0 30px;
+    width: 260px;
+  }
+
+  .input__logoWrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .input__title {
+    text-align: center;
+    margin: 50px 0 80px;
+  }
+
+  .input__button {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .input__text {
+    font-size: 12px;
+    line-height: 15px;
+    margin-top: 14px;
+  }
 }

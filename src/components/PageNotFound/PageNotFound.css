@@ -39,3 +39,22 @@
 	opacity: 0.6;
 	transition: opacity 0.2s linear;
 }
+
+@media (max-width: 460px) {
+  .pageNotFound__title{
+    font-size: 80px;
+    line-height: 97px;
+    margin-bottom: 10px;
+  }
+
+  .pageNotFound__subtitle{
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .pageNotFound__link{
+    font-size: 12px;
+    line-height: 15px;
+    margin-bottom: 30px;
+  }
+}

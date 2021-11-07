@@ -3,3 +3,16 @@
   display: grid;
   grid-gap: 40px;
 }
+
+@media (max-width: 1180px) {
+  .moviesCardList {
+    padding: 60px 0 30px;
+  }
+}
+
+@media (max-width: 740px) {
+  .moviesCardList {
+    padding: 40px 0 20px;
+    grid-gap: 20px;
+  }
+}

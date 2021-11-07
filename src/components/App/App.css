@@ -21,15 +21,6 @@
   border: solid 1px #E8E8E8;
 }
 
-.app__flex {
-  display: flex;
-	align-items: flex-start;
-	justify-content: space-between;
-}
-.app__flex_center {
-  align-items: center;
-}
-
 @media (max-width: 1180px) {
   .app__section {
     width: 708px
@@ -39,9 +30,5 @@
 @media (max-width: 740px) {
   .app__section {
     width: 300px
-  }
-
-  .app__flex {
-    flex-direction: column;
   }
 }

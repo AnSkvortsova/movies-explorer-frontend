@@ -41,3 +41,14 @@
   left: 23px;
   transition-duration: 300ms;
 }
+
+@media (max-width: 740px) {
+  .filterCheckbox {
+    width: 148px;
+    margin: 0 auto;
+  }
+  .filterCheckbox__label {
+    font-size: 11px;
+    padding-left: 47px;
+  }
+}

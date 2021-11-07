@@ -9,6 +9,12 @@
   margin-bottom: 69px;
 }
 
+.searchForm__flex {
+  display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
 .searchForm__inputSection {
   padding: 19px;
   position: relative;
@@ -59,4 +65,56 @@
 
 .searchForm__checkboxSection {
   padding: 26px 30px;
+}
+
+.searchForm__checkboxMobile {
+  display: none;
+}
+
+@media (max-width: 1180px) {
+  .searchForm {
+    padding-top: 80px;
+  }
+
+  .searchForm__form {
+    margin-bottom: 109px;
+  }
+
+  .searchForm__inputSection {
+    padding: 25px;
+  }
+
+  .searchForm__checkboxSection {
+    padding: 26px 20px;
+  }
+}
+
+@media (max-width: 740px) {
+  .searchForm__form {
+    margin-bottom: 46px;
+  }
+  .searchForm__inputSection {
+    padding: 25px 19px;
+  }
+  .searchForm__inputSection::after {
+    display: none;
+  }
+
+  .searchForm__icon {
+    display: none;
+  }
+
+  .searchForm__input {
+    flex-basis: 90%;
+    font-size: 14px;
+  }
+
+  .searchForm__checkboxSection {
+    display: none;
+  }
+
+  .searchForm__checkboxMobile {
+    display: block;
+    margin-bottom: 45px;
+  }
 }

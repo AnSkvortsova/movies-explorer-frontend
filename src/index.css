@@ -6,6 +6,8 @@
 @import url(./components/Logo/Logo.css);
 @import url(./components/Header/Header.css);
 @import url(./components/Navigation/Navigation.css);
+@import url(./components/AccountButton/AccountButton.css);
+@import url(./components/MenuPopup/MenuPopup.css);
 
 @import url(./components/Promo/Promo.css);
 @import url(./components/AboutProject/AboutProject.css);
@@ -13,6 +15,7 @@
 @import url(./components/AboutMe/AboutMe.css);
 @import url(./components/Portfolio/Portfolio.css);
 
+@import url(./components/Movies/Movies.css);
 @import url(./components/SavedMovies/SavedMovies.css);
 @import url(./components/SearchForm/SearchForm.css);
 @import url(./components/FilterCheckbox/FilterCheckbox.css);

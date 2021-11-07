@@ -1,5 +1,8 @@
 .nav {
   padding: 18px 0;
+  display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .nav__list {
@@ -33,29 +36,38 @@
   font-weight: 500;
 }
 
-.nav__account {
-  width: 100px;
-  height: 32px;
-  background: #FFFFFF;
-  box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08);
-  border-radius: 40px;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 12px;
-  text-decoration: none;
-  color: #000000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.nav__menu {
+  display: none;
+  border: none;
+  background: none;
+  padding: 0;
 }
-.nav__account:hover {
+.nav__menu:hover {
   cursor: pointer;
-  box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.2);
-  transition: box-shadow 0.2s linear;
+	opacity: 0.6;
+	transition: opacity 0.2s linear;
 }
 
-.nav__accountIcon {
-  width: 26px;
-  height: 26px;
-  margin-left: 7px;
+.nav__icon {
+  width: 44px;
+}
+
+@media (max-width: 1180px) {
+  .nav__list {
+    display: none;
+  }
+
+  .nav__account {
+    display: none;
+  }
+
+  .nav__menu {
+    display: block;
+  }
+}
+
+@media (max-width: 740px) {
+  .nav__icon {
+    width: 40px;
+  }
 }

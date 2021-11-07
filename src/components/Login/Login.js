@@ -6,7 +6,9 @@ import { Logo } from '../Logo/Logo';
 export function Login() {
   return (
     <article className="input">
-      <Logo />
+      <div className="input__logoWrapper">
+        <Logo />
+      </div>
       <h1 className="input__title">Рады видеть!</h1>
       <form className="input__form">
         <fieldset className="input__fieldset">
