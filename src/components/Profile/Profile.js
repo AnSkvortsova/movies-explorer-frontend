@@ -6,12 +6,12 @@ export function Profile() {
         <fieldset className="profile__inputs">
           <div className="profile__section">
             <label className="profile__label" for="userName">Имя</label>
-            <input className="profile__input" id="userName" placeholder="Виталий" />
+            <input className="profile__input" id="userName" type="text" minLength="2" maxLength="30" required placeholder="Виталий" />
           </div>
            <div className="app__lineG"></div>
           <div className="profile__section">
             <label className="profile__label" for="userMail">E-mail</label>
-            <input className="profile__input" id="userMail" placeholder="pochta@yandex.ru" />
+            <input className="profile__input" id="userMail" type="email" required placeholder="pochta@yandex.ru" />
           </div>
         </fieldset>
         <button className="profile__button">Редактировать</button>

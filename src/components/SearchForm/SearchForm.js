@@ -8,7 +8,7 @@ export function SearchForm() {
         <div className="searchForm__inputSection searchForm__flex">
           <img className="searchForm__icon" src={searchIcon} alt="лупа" />
           <input className="searchForm__input" placeholder="Фильм" type="search" required />
-          <button className="searchForm__button" type="button">Найти</button>
+          <button className="searchForm__button" type="button" aria-label="найти">Найти</button>
         </div>
         <div className="searchForm__checkboxSection">
           <FilterCheckbox />

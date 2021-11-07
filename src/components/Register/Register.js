@@ -14,15 +14,15 @@ export function Register() {
         <fieldset className="input__fieldset">
           <div className="input__wrapper">
             <label className="input__label" for="userName">Имя</label>
-            <input className="input__content" id="userName" placeholder="Виталий" />
+            <input className="input__content" id="userName" type="text" minLength="2" maxLength="30" required placeholder="Виталий" />
           </div>
           <div className="input__wrapper">
             <label className="input__label" for="userMail">E-mail</label>
-            <input className="input__content" id="userMail" placeholder="pochta@yandex.ru" />
+            <input className="input__content" id="userMail" type="email" required placeholder="pochta@yandex.ru" />
           </div>
           <div className="input__wrapper">
             <label className="input__label" for="userPassword">Пароль</label>
-            <input className="input__content" id="userPassword" type="password" />
+            <input className="input__content" id="userPassword" type="password" minLength="8" required />
           </div>
         </fieldset>
         <button className="input__button">Зарегистрироваться</button>
