@@ -1,0 +1,30 @@
+.accountButton {
+  width: 100px;
+  height: 32px;
+  background: #FFFFFF;
+  box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08);
+  border-radius: 40px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.accountButton:hover {
+  cursor: pointer;
+  box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.2s linear;
+}
+
+.accountButton__text {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 12px;
+  color: #000000;
+  padding-left: 9px;
+}
+
+.accountButton__icon {
+  width: 26px;
+  height: 26px;
+  margin-left: 7px;
+}
