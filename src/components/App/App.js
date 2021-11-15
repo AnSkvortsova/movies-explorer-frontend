@@ -14,6 +14,9 @@ import { Footer } from '../Footer/Footer';
 import { PageNotFound } from '../PageNotFound/PageNotFound';
 import { MenuPopup } from '../MenuPopup/MenuPopup';
 
+import moviesApi from '../../utils/MoviesApi';
+
+
 function App() {
   // попапы
   const [isMenuPopupOpen, setMenuPopupState] = useState(false);
@@ -47,6 +50,23 @@ function App() {
     return () => document.removeEventListener('click', closeByOverlay);
   }, []);
 
+  // movies
+  const getCards = JSON.parse(localStorage.getItem('movies'));
+
+  const [cardsData, setCardsData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const onSearch = (query) => {
+    setLoading(true)
+    moviesApi.search(query)
+    .then((data) => {
+      setLoading(false)
+      setCardsData(data)
+      localStorage.setItem('movies', JSON.stringify(cardsData))
+    })
+    .catch((err) => {console.log(err)});
+  };
+
   return (
     <div className="app">
       <Switch>
@@ -62,7 +82,10 @@ function App() {
           <Navigation 
             onMenuPopup={handleMenuPopupClick}
           />
-          <Movies />
+          <Movies 
+          onSearch = {onSearch}
+          cards = {getCards}
+          isLoading = {loading} />
           <Footer />
         </Route>
 

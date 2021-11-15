@@ -1,16 +1,13 @@
 import { SearchForm } from '../SearchForm/SearchForm';
 import { MoviesCardList } from '../MoviesCardList/MoviesCardList';
+import { Preloader } from '../Preloader/Preloader';
 
-export function Movies() {
-  const onSearch = (query) => {
-
-  }
-
+export function Movies(props) {
   return (
     <main className="movies">
-      <SearchForm onSearch={onSearch} />
-      <MoviesCardList />
-      <button className="movies__button">Ещё</button>
+      <SearchForm onSearch={props.onSearch} />
+      {props.isLoading ? (<Preloader />) : null}
+      {props.cards.length !== 0 ? (<MoviesCardList cardsData={props.cards} />) : null}
     </main>
   );
 }

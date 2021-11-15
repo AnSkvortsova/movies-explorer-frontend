@@ -4,18 +4,28 @@ import { FilterCheckbox } from '../FilterCheckbox/FilterCheckbox';
 import searchIcon from '../../images/search-icon.svg'
 
 export function SearchForm(props) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState({
+    input: '',
+    validate: false,
+  });
 
   function handleInputChange(evt) {
-    setQuery(evt.target.value)
-  }
+    setQuery({
+      input: evt.target.value,
+      validate: false
+    })
+  };
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.onSearch(query);
-  }
 
-  console.log("query: ", query)
+    if(!query.input){
+      return setQuery({...query, validate: true});
+    };
+
+    props.onSearch(query);
+    query.input = '';
+  };
 
   return (
     <section className="searchForm app__section">
@@ -26,9 +36,14 @@ export function SearchForm(props) {
             className="searchForm__input" 
             placeholder="Фильм" 
             type="search" 
-            value={query || ''}
+            value={query.input || ''}
             onChange={handleInputChange}
             required />
+          {query.validate && (
+            <span className="searchForm__error">
+              Нужно ввести ключевое слово
+            </span>
+          )}
 
           <button 
             className="searchForm__button" 

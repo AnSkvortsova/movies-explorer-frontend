@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 
 import { Logo } from '../Logo/Logo';
+import { ValidationSchema } from '../../utils/ValidationSchema';
 
 export function Register() {
   return (
@@ -19,18 +19,7 @@ export function Register() {
           email: '',
           password: '',
         }}
-        validationSchema = {Yup.object({
-          name: Yup.string()
-            .matches(/^[a-zа-я -]+$/i, 'Для имени допустимы символы кириллицы, латиницы, пробел и дефис')
-            .max(20, 'Слишком много знаков')
-            .required('Поле обязательно для заполнения'),
-          email: Yup.string()
-            .email('Неверный адрес электронной почты')
-            .required('Поле обязательно для заполнения'),
-          password: Yup.string()
-            .min(6, 'Нужно больше знаков')
-            .required('Поле обязательно для заполнения'),
-        })}
+        validationSchema = {ValidationSchema}
         onSubmit = {(values) => {
           console.log(values);
         }}
@@ -80,9 +69,10 @@ export function Register() {
               <button 
               className={`input__button ${!props.isValid ? 'input__button_error' : ''}`} 
               disabled={!props.isValid ? "disabled" : ''} 
+              aria-label="Зарегистрироваться"
               type="submit">Зарегистрироваться</button>
             </Form>
-              )}}
+          )}}
       </Formik>
 
       <p className="input__text">

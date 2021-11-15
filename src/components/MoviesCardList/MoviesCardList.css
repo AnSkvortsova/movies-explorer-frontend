@@ -4,6 +4,25 @@
   grid-gap: 40px;
 }
 
+.moviesCardList__button {
+  width: 320px;
+  height: 36px;
+  background: #F9F9F9;
+  border: transparent;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+  display: block;
+  margin: 50px auto 0;
+}
+.moviesCardList__button:hover {
+  background-color: #000000;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
 @media (max-width: 1180px) {
   .moviesCardList {
     padding: 60px 0 30px;
@@ -14,5 +33,9 @@
   .moviesCardList {
     padding: 40px 0 20px;
     grid-gap: 20px;
+  }
+
+  .moviesCardList__button{
+    width: 240px;
   }
 }
