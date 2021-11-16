@@ -14,6 +14,7 @@ import { Footer } from '../Footer/Footer';
 import { PageNotFound } from '../PageNotFound/PageNotFound';
 import { MenuPopup } from '../MenuPopup/MenuPopup';
 
+import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
 
 
@@ -51,20 +52,35 @@ function App() {
   }, []);
 
   // movies
-  const getCards = JSON.parse(localStorage.getItem('movies'));
+  const [allCardsData, setAllCardsDataState] = useState([]);
+  const [cardsData, setCardsDataState] = useState([]);
+  const [loading, setLoadingState] = useState(false);
 
-  const [cardsData, setCardsData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const getAllCards = JSON.parse(localStorage.getItem('allMovies'));
 
   const onSearch = (query) => {
-    setLoading(true)
-    moviesApi.search(query)
+    if(getAllCards.length === 0) {
+      getAllMovies();
+    }
+    setCardsDataState(
+      getAllCards.filter(card => card.nameRU.toLowerCase().includes(query.input))
+    );
+  };
+
+  const getAllMovies = () => {
+    setLoadingState(true);
+    moviesApi.search()
     .then((data) => {
-      setLoading(false)
-      setCardsData(data)
-      localStorage.setItem('movies', JSON.stringify(cardsData))
+      setLoadingState(false);
+      setAllCardsDataState(data);
+      localStorage.setItem('allMovies', JSON.stringify(allCardsData))
     })
     .catch((err) => {console.log(err)});
+  };
+
+  // регистрация
+  function handleRegisterSubmit(password, email) {
+
   };
 
   return (
@@ -84,7 +100,7 @@ function App() {
           />
           <Movies 
           onSearch = {onSearch}
-          cards = {getCards}
+          cards = {cardsData}
           isLoading = {loading} />
           <Footer />
         </Route>
@@ -109,7 +125,7 @@ function App() {
         </Route>
 
         <Route path="/signup">
-          <Register />
+          <Register onRegisterSubmit={handleRegisterSubmit} />
         </Route>
 
         <Route path="*">
