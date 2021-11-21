@@ -49,7 +49,7 @@
 }
 .input__content::placeholder {
   font-weight: 400;
-  color: #000000;
+  color: #A0A0A0;
 }
 .input__content:focus {
   border-bottom: 1px solid #000000;
@@ -119,6 +119,14 @@
 
 .input__passwordError {
   color: #FF4062;
+}
+
+.input__formError {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #FF4062;
+  text-align: center;
 }
 
 @media (max-width: 460px) {

@@ -34,8 +34,6 @@ export function MoviesCardList(props) {
     }
   }, [width]);
 
-  console.log(props.cardsData)
-
   return (
     <section className="moviesCardList app__section">
       {!props.cardsData.length === 0 ? (<p className="moviesCardList__text">Ничего не найдено</p>) : ''}

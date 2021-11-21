@@ -7,13 +7,16 @@ export function SearchForm(props) {
   const [query, setQuery] = useState({
     input: '',
     validate: false,
+    isShortMovie: false,
   });
 
   function handleInputChange(evt) {
-    setQuery({
-      input: evt.target.value,
-      validate: false
-    })
+    setQuery({ ...query, input: evt.target.value });
+  };
+
+  function handleCheckboxChange(isShortMovie) {
+    setQuery({ ...query, isShortMovie});
+    props.onCheckboxChange(query);
   };
 
   function handleSubmit(evt) {
@@ -53,11 +56,11 @@ export function SearchForm(props) {
             >Найти</button>
         </div>
         <div className="searchForm__checkboxSection">
-          <FilterCheckbox />
+          <FilterCheckbox handleCheckboxChange={handleCheckboxChange} />
         </div>
       </form>
       <div className="searchForm__checkboxMobile">
-        <FilterCheckbox />
+        <FilterCheckbox handleCheckboxChange={handleCheckboxChange} />
       </div>  
       <div className="app__lineG"></div>
     </section>

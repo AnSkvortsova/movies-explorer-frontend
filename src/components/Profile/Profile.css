@@ -1,4 +1,4 @@
-.profile {
+.profile__main {
   width: 410px;
   padding: 74px 0 70px;
   margin: 0 auto;
@@ -80,7 +80,7 @@
 }
 
 @media (max-width: 460px) {
-  .profile {
+  .profile__main {
     width: 260px;
     padding: 70px 0 40px;
   }

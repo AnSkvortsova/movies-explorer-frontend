@@ -1,13 +1,20 @@
+import { Navigation } from '../Navigation/Navigation';
 import { SearchForm } from '../SearchForm/SearchForm';
 import { MoviesCardList } from '../MoviesCardList/MoviesCardList';
 import { Preloader } from '../Preloader/Preloader';
+import { Footer } from '../Footer/Footer';
 
 export function Movies(props) {
+
   return (
-    <main className="movies">
-      <SearchForm onSearch={props.onSearch} />
-      {props.isLoading ? (<Preloader />) : null}
-      {props.cards.length !== 0 ? (<MoviesCardList cardsData={props.cards} />) : null}
-    </main>
+    <div className="movies">
+      <Navigation onMenuPopup = {props.onMenuPopup} />
+      <main className="movies__main">
+        <SearchForm onSearch={props.onSearch} />
+        {props.isLoading ? (<Preloader />) : null}
+        {props.cards.length !== 0 ? (<MoviesCardList cardsData={props.cards} />) : null}
+      </main>
+      <Footer />
+    </div>
   );
 }

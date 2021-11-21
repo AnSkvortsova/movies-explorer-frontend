@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 import { Logo } from '../Logo/Logo';
-import { ValidationSchema } from '../../utils/ValidationSchema';
 
-export function Login() {
+export function Login(props) {
   return (
     <article className="input">
       <div className="input__logoWrapper">
@@ -18,9 +18,20 @@ export function Login() {
           email: '',
           password: '',
         }}
-        validationSchema = {ValidationSchema}
-        onSubmit = {(values) => {
-          console.log(values);
+        validationSchema = {Yup.object({
+          email: Yup.string()
+            .email('Неверный адрес электронной почты')
+            .required('Поле обязательно для заполнения'),
+          password: Yup.string()
+            .min(8, 'Мало символов')
+            .required('Поле обязательно для заполнения'),
+        })}
+        onSubmit = {(values, {resetForm}) => {
+          props.onLoginSubmit(values.email, values.password);
+          resetForm({
+            email: '',
+            password: '',
+          });
         }}
       >
         {props => {
@@ -38,6 +49,7 @@ export function Login() {
                     <ErrorMessage name="email" />
                   </div>
                 </div>
+
                 <div className="input__wrapper">
                   <label className="input__label" htmlFor="userPassword">Пароль</label>
                   <Field 
@@ -49,6 +61,7 @@ export function Login() {
                   </div>
                 </div>
               </fieldset>
+
               <button 
               className={`input__button ${!props.isValid ? 'input__button_error' : ''}`} 
               disabled={!props.isValid ? "disabled" : ''} 
@@ -57,6 +70,8 @@ export function Login() {
             </Form>
           )}}
       </Formik>
+
+      {props.isError ? (<p className="input__formError">Что-то пошло не так...</p>) : ''}
 
       <p className="input__text">
         Ещё не зарегистрированы?

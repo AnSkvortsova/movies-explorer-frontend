@@ -1,11 +1,17 @@
+import { Navigation } from '../Navigation/Navigation';
 import { SearchForm } from '../SearchForm/SearchForm';
 import { MoviesCardList } from '../MoviesCardList/MoviesCardList';
+import { Footer } from '../Footer/Footer';
 
-export function SavedMovies() {
+export function SavedMovies(props) {
   return (
-    <main className="savedMovies">
-      <SearchForm />
-      <MoviesCardList />
-    </main>
+    <div className="savedMovies">
+      <Navigation onMenuPopup={props.onMenuPopup} />
+      <main className="savedMovies__main">
+        <SearchForm />
+        <MoviesCardList />
+      </main>
+      <Footer />
+    </div>
   );
 }

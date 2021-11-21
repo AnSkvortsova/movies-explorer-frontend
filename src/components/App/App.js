@@ -1,9 +1,8 @@
 import { React, useState, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import './App.css';
 import { Header } from '../Header/Header'; 
-import { Navigation } from '../Navigation/Navigation';
 import { Main } from '../Main/Main';
 import { Movies } from '../Movies/Movies';
 import { SavedMovies } from '../SavedMovies/SavedMovies';
@@ -13,12 +12,27 @@ import { Login } from '../Login/Login';
 import { Footer } from '../Footer/Footer'; 
 import { PageNotFound } from '../PageNotFound/PageNotFound';
 import { MenuPopup } from '../MenuPopup/MenuPopup';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
+import { sortMovies } from '../../utils/sortMovies';
 
-import mainApi from '../../utils/MainApi';
-import moviesApi from '../../utils/MoviesApi';
+import * as mainApi from '../../utils/MainApi';
+import * as moviesApi from '../../utils/MoviesApi';
 
 
 function App() {
+  const history = useHistory({forceRefresh: true});
+  const location = useLocation();
+
+  const [loggedIn, setLoggedInState] = useState(false);
+  const [loading, setLoadingState] = useState(false);
+  const [error, setErrorState] = useState(false);
+  const [currentUser, setCurrentUserState] = useState({
+    _id: '',
+    name: '',
+    email: '',
+  });
+
   // попапы
   const [isMenuPopupOpen, setMenuPopupState] = useState(false);
 
@@ -52,38 +66,139 @@ function App() {
   }, []);
 
   // movies
-  const [allCardsData, setAllCardsDataState] = useState([]);
-  const [cardsData, setCardsDataState] = useState([]);
-  const [loading, setLoadingState] = useState(false);
+  const [allCards, setAllCardsState] = useState([]);
+  const [sortedCards, setSortedCardsState] = useState([]);
 
-  const getAllCards = JSON.parse(localStorage.getItem('allMovies'));
+  console.log('allCards ', allCards)
+  console.log('sortedCards ', sortedCards)
 
-  const onSearch = (query) => {
-    if(getAllCards.length === 0) {
-      getAllMovies();
+  useEffect(() => {
+    if (localStorage.allMovies !== undefined) {
+    setAllCardsState(JSON.parse(localStorage.allMovies));
     }
-    setCardsDataState(
-      getAllCards.filter(card => card.nameRU.toLowerCase().includes(query.input))
-    );
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('allMovies', JSON.stringify(allCards))
+  }, [allCards]);
+
+  useEffect(() => {
+    if (localStorage.sortedCards !== undefined) {
+    setSortedCardsState(JSON.parse(localStorage.sortedCards));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('sortedCards', JSON.stringify(sortedCards))
+  }, [sortedCards]);
+  
+  function getAllMovies() {
+      setLoadingState(true);
+      moviesApi.search()
+      .then((data) => {
+        setLoadingState(false);
+        setAllCardsState(data)
+      })
+      .catch((err) => {console.log(err)})
   };
 
-  const getAllMovies = () => {
-    setLoadingState(true);
-    moviesApi.search()
-    .then((data) => {
-      setLoadingState(false);
-      setAllCardsDataState(data);
-      localStorage.setItem('allMovies', JSON.stringify(allCardsData))
-    })
-    .catch((err) => {console.log(err)});
+  function getSortedMovies (query) {
+    if (allCards.length !== 0) {
+      console.log('from allCards');
+      setSortedCardsState(sortMovies(allCards, query))
+    } else if (localStorage.allMovies !== undefined) {
+      console.log('from local allMovies', localStorage.allMovies);
+      setSortedCardsState(sortMovies(JSON.parse(localStorage.allMovies), query));
+    }
   };
+
+  function onSearch (query) {
+    console.log('search');
+    getSortedMovies (query);
+  };
+
+  function onCheckboxChange (query) {
+    if(!query.isShortMovie) {
+      return setSortedCardsState(sortMovies(sortedCards, query))
+    }
+    getSortedMovies(query);
+  }
+
+
+
+  // проверка авторизации
+  useEffect(() => {
+    mainApi.getUserData()
+    .then((res) => {
+      setCurrentUserState({
+        _id: res.data._id,
+        name: res.data.name,
+        email: res.data.email,
+      })
+      setLoggedInState(true);
+      if (location.pathname === '/signin') {
+        history.push('/movies');
+      } else {
+        history.push(location.pathname);
+      }
+    })
+    .catch((err) => {
+      setErrorState(true);
+      console.log(err);
+    });
+  }, [history, location.pathname]);
 
   // регистрация
-  function handleRegisterSubmit(password, email) {
-
+  function handleRegisterSubmit(name, email, password) {
+    mainApi.register(name, email, password)
+    .then((res) => {
+      handleLoginSubmit(email, password)
+    })
+    .catch((err) => {
+      setErrorState(true);
+      setLoggedInState(false);
+      console.log(err);
+    });
   };
 
+  // вход 
+  function handleLoginSubmit(email, password) {
+    mainApi.login(email, password)
+    .then((res) => {
+      if(res.ok) {
+      setLoggedInState(true);
+      setErrorState(false);
+			history.push('/movies');
+      getAllMovies();
+    }})
+    .catch((err) => {
+      setLoggedInState(false);
+      setErrorState(true);
+      console.log(err);
+    });
+  };
+
+  //выход
+  function handleLogout() {
+    mainApi.logout()
+    .then((res) => {
+      setCurrentUserState({
+        _id: '',
+        name: '',
+        email: '',
+      })
+      localStorage.clear();
+      setLoggedInState(false);
+      //history.push('/');
+    })
+    .catch((err) => console.log(err))
+  }
+
+  //console.log('loggedIn ', loggedIn)
+  //console.log('currentUser ', currentUser)
+
   return (
+    <CurrentUserContext.Provider value={currentUser}>
     <div className="app">
       <Switch>
         <Route exact path="/">
@@ -94,38 +209,39 @@ function App() {
           <Footer />
         </Route>
 
-        <Route path="/movies">
-          <Navigation 
-            onMenuPopup={handleMenuPopupClick}
-          />
-          <Movies 
-          onSearch = {onSearch}
-          cards = {cardsData}
-          isLoading = {loading} />
-          <Footer />
-        </Route>
+        <ProtectedRoute  
+        path="/movies"
+        component = {Movies}
+        isLoggedIn = {loggedIn}
+        onMenuPopup = {handleMenuPopupClick}
+        onSearch = {onSearch}
+        onCheckboxChange = {onCheckboxChange}
+        cards = {sortedCards}
+        isLoading = {loading} />
 
-        <Route path="/saved-movies">
-          <Navigation 
-            onMenuPopup={handleMenuPopupClick}
-          />
-          <SavedMovies />
-          <Footer />
-        </Route>
+        <ProtectedRoute 
+        path="/saved-movies"
+        component = {SavedMovies}
+        isLoggedIn = {loggedIn}
+        onMenuPopup={handleMenuPopupClick}
+        onSearch = {onSearch}
+        onCheckboxChange = {onCheckboxChange}
+        cards = {sortedCards}
+        isLoading = {loading} />
 
-        <Route path="/profile">
-          <Navigation 
-            onMenuPopup={handleMenuPopupClick}
-          />
-          <Profile />
-        </Route>
+        <ProtectedRoute 
+        path="/profile"
+        component = {Profile}
+        isLoggedIn = {loggedIn}
+        onMenuPopup = {handleMenuPopupClick}
+        onLogoutSubmit = {handleLogout} />
 
         <Route path="/signin">
-          <Login />
+          <Login onLoginSubmit = {handleLoginSubmit} isError={error} />
         </Route>
 
         <Route path="/signup">
-          <Register onRegisterSubmit={handleRegisterSubmit} />
+          <Register onRegisterSubmit={handleRegisterSubmit} isError={error} />
         </Route>
 
         <Route path="*">
@@ -138,6 +254,7 @@ function App() {
       onClose={closeMenuPopup}
     />
     </div>
+    </CurrentUserContext.Provider>
   );
 }
 
