@@ -15,6 +15,7 @@
   font-weight: 500;
   font-size: 18px;
   line-height: 22px;
+  color: #000000;
   margin: 0 0 13px;
 }
 
@@ -28,6 +29,22 @@
 
 .moviesCard__like {
   width: 14px;
+  height: 12px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  background-image: url(../../images/like.svg);
+}
+.moviesCard__like_active {
+  background-image: url(../../images/like-active.svg);
+}
+.moviesCard__like_delete {
+  background-image: url(../../images/like-delete.svg);
+}
+.moviesCard__like:hover {
+  cursor: pointer;
+	opacity: 0.6;
+	transition: opacity 0.2s linear;
 }
 
 .moviesCard__img {
@@ -35,6 +52,15 @@
   height: 122px;
   object-fit: cover;
   margin: 6px;
+}
+
+.moviesCard__link {
+  text-decoration: none;
+}
+.moviesCard__link:hover {
+  cursor: pointer;
+	opacity: 0.6;
+	transition: opacity 0.2s linear;
 }
 
 @media (max-width: 740px) {

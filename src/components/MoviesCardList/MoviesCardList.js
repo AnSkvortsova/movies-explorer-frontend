@@ -36,12 +36,13 @@ export function MoviesCardList(props) {
 
   return (
     <section className="moviesCardList app__section">
-      {!props.cardsData.length === 0 ? (<p className="moviesCardList__text">Ничего не найдено</p>) : ''}
       {addCards.map((card) => (
         <MoviesCard 
-        key={card.id}
+        key={card.id ? card.id : card._id}
         card={card}
-        />
+        saveMovie={props.saveMovie}
+        savedCards={props.savedCards}
+        deleteMovie={props.deleteMovie} />
       ))}
       {elseButton 
       ? <button 

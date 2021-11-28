@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { FilterCheckbox } from '../FilterCheckbox/FilterCheckbox';
 import searchIcon from '../../images/search-icon.svg'
@@ -14,9 +14,12 @@ export function SearchForm(props) {
     setQuery({ ...query, input: evt.target.value });
   };
 
+  useEffect(() => {
+    props.onCheckboxChange(query)
+  }, [query])
+
   function handleCheckboxChange(isShortMovie) {
     setQuery({ ...query, isShortMovie});
-    props.onCheckboxChange(query);
   };
 
   function handleSubmit(evt) {

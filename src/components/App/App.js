@@ -24,6 +24,10 @@ function App() {
   const history = useHistory({forceRefresh: true});
   const location = useLocation();
 
+  const [allCards, setAllCardsState] = useState([]);
+  const [sortedCards, setSortedCardsState] = useState([]);
+  const [savedCards, setSavedCardsState] = useState([]);
+
   const [loggedIn, setLoggedInState] = useState(false);
   const [loading, setLoadingState] = useState(false);
   const [error, setErrorState] = useState(false);
@@ -65,12 +69,10 @@ function App() {
     return () => document.removeEventListener('click', closeByOverlay);
   }, []);
 
-  // movies
-  const [allCards, setAllCardsState] = useState([]);
-  const [sortedCards, setSortedCardsState] = useState([]);
-
+  // фильмы
   console.log('allCards ', allCards)
   console.log('sortedCards ', sortedCards)
+  console.log('savedCards ', savedCards)
 
   useEffect(() => {
     if (localStorage.allMovies !== undefined) {
@@ -97,34 +99,41 @@ function App() {
       moviesApi.search()
       .then((data) => {
         setLoadingState(false);
-        setAllCardsState(data)
+        setAllCardsState(data);
       })
       .catch((err) => {console.log(err)})
   };
 
   function getSortedMovies (query) {
-    if (allCards.length !== 0) {
-      console.log('from allCards');
-      setSortedCardsState(sortMovies(allCards, query))
-    } else if (localStorage.allMovies !== undefined) {
-      console.log('from local allMovies', localStorage.allMovies);
-      setSortedCardsState(sortMovies(JSON.parse(localStorage.allMovies), query));
-    }
+    setSortedCardsState(sortMovies(allCards, query));
   };
 
-  function onSearch (query) {
-    console.log('search');
-    getSortedMovies (query);
+  // лайк
+  function saveMovie(cardData) {
+    mainApi.createMovie(cardData)
+    .then((res) => {
+      setSavedCardsState(savedCards.concat(res));
+    })
+    .catch((err) => {console.log(err)})
   };
 
-  function onCheckboxChange (query) {
-    if(!query.isShortMovie) {
-      return setSortedCardsState(sortMovies(sortedCards, query))
-    }
-    getSortedMovies(query);
-  }
+  function deleteMovie(id) {
+    mainApi.removeMovie(id)
+    .then(() => {
+      getSavedMovies();
+      console.log(1)
+    })
+    .catch((err) => {console.log(err)})
+  };
 
-
+  function getSavedMovies() {
+    mainApi.getMovies()
+    .then((res) => {
+      setSavedCardsState(res);
+      console.log(2)
+    })
+    .catch((err) => {console.log(err)})
+  };
 
   // проверка авторизации
   useEffect(() => {
@@ -189,13 +198,10 @@ function App() {
       })
       localStorage.clear();
       setLoggedInState(false);
-      //history.push('/');
+      history.push('/');
     })
     .catch((err) => console.log(err))
   }
-
-  //console.log('loggedIn ', loggedIn)
-  //console.log('currentUser ', currentUser)
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -214,9 +220,12 @@ function App() {
         component = {Movies}
         isLoggedIn = {loggedIn}
         onMenuPopup = {handleMenuPopupClick}
-        onSearch = {onSearch}
-        onCheckboxChange = {onCheckboxChange}
+        onSearch = {getSortedMovies}
+        onCheckboxChange = {getSortedMovies}
         cards = {sortedCards}
+        saveMovie = {saveMovie}
+        savedCards = {savedCards}
+        deleteMovie = {deleteMovie}
         isLoading = {loading} />
 
         <ProtectedRoute 
@@ -224,8 +233,8 @@ function App() {
         component = {SavedMovies}
         isLoggedIn = {loggedIn}
         onMenuPopup={handleMenuPopupClick}
-        onSearch = {onSearch}
-        onCheckboxChange = {onCheckboxChange}
+        onSearch = {getSortedMovies}
+        onCheckboxChange = {getSortedMovies}
         cards = {sortedCards}
         isLoading = {loading} />
 

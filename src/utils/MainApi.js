@@ -54,3 +54,51 @@ export const getUserData = () => {
 		},
 	}).then((response) => checkResult(response));
 };
+
+export const getMovies = () => {
+	return fetch(`${MAIN_API_BASE_URL}/movies`, {
+		method: 'GET',
+		credentials: 'include',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	}).then((response) => checkResult(response));
+};
+
+export const createMovie = (data) => {
+	return fetch(`${MAIN_API_BASE_URL}/movies`, {
+		method: 'POST',
+		credentials: 'include',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			country: data.country,
+      director: data.director,
+      duration: data.duration,
+      year: data.year,
+      description: data.description,
+      image: `https://api.nomoreparties.co${data.image.url}`,
+      trailer: data.trailerLink,
+      thumbnail: `https://api.nomoreparties.co${data.image.formats.thumbnail.url}`,
+      movieId: data.id,
+      nameRU: data.nameRU,
+      nameEN: data.nameEN,
+		})
+	}).then((response) => checkResult(response));
+};
+
+export const removeMovie = (id) => {
+	return fetch(`${MAIN_API_BASE_URL}/movies/${id}`, {
+		method: 'DELETE',
+		credentials: 'include',
+		headers: {
+			'Content-Type': 'application/json',
+		}
+	}).then((response) => {
+    if(response.ok) {
+      return response;
+    }
+    return Promise.reject(`Ошибка: ${response.status}`)
+  });
+};

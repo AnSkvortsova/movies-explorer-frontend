@@ -6,10 +6,10 @@
   display: none;
 }
 .filterCheckbox__switch:checked + .filterCheckbox__label::before {
-  background-color: #000000;
+  background-color: #2BE080;
 }
 .filterCheckbox__switch:checked + .filterCheckbox__label::after {
-  left: 3px;
+  left: 23px;
 }
 
 .filterCheckbox__label {
@@ -24,7 +24,7 @@
   content: "";
   width: 34px;
   height: 14px;
-  background-color: #2BE080;
+  background-color: #000000;
   border-radius: 20px;
   position: absolute;
   top: 1px;
@@ -38,7 +38,7 @@
   border-radius: 50%;
   position: absolute;
   top: 3px;
-  left: 23px;
+  left: 3px;
   transition-duration: 300ms;
 }
 

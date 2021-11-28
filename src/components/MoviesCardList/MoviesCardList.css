@@ -4,11 +4,6 @@
   grid-gap: 40px;
 }
 
-.moviesCardList__text {
-  font-size: 40px;
-  line-height: 40px;
-}
-
 .moviesCardList__button {
   width: 320px;
   height: 36px;
