@@ -40,6 +40,7 @@ export function MoviesCardList(props) {
         <MoviesCard 
         key={card.id ? card.id : card._id}
         card={card}
+        page={props.page}
         saveMovie={props.saveMovie}
         savedCards={props.savedCards}
         deleteMovie={props.deleteMovie} />

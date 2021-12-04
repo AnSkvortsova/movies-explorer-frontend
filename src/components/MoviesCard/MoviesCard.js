@@ -1,22 +1,36 @@
-import React, { useState } from 'react/cjs/react.development';
+import React, { useEffect, useState } from 'react/cjs/react.development';
 
 import { getTime } from '../../utils/getTime';
 
 export function MoviesCard(props) {
   const [isLike, setLikeState] = useState(false);
 
+  useEffect(() => {
+    setLikeState(props.savedCards.some((item) => item.movieId === props.card.id))
+  }, [props.card.id, props.savedCards]);
+
   function handleLikeClick() {
-    if (isLike) {
-      let deletedCard = props.savedCards.find((item) => item.data.movieId === props.card.id);
-      console.log(deletedCard)
-      props.deleteMovie(deletedCard.data._id);
-      return setLikeState(false);
-    }
-    props.saveMovie(props.card)
-    setLikeState(true);
+    let deletedCard = props.savedCards.find((item) => item.movieId === props.card.id);
+    if(props.page === "movies") {
+      if (isLike) {
+        //let deletedCard = props.savedCards.find((item) => item.movieId === props.card.id);
+        props.deleteMovie(deletedCard._id);
+        return setLikeState(false);
+      }
+      props.saveMovie(props.card)
+      return setLikeState(true);
+      }
+    props.deleteMovie(deletedCard._id);
   };
 
-  console.log(props.savedCards)
+  const buttonClassName = props.page === "movies" 
+  ? `moviesCard__like ${isLike ? "moviesCard__like_active" : ""}` 
+  : `moviesCard__like moviesCard__like_delete`;
+
+  const imagePath = props.page === "movies" 
+  ? `https://api.nomoreparties.co${props.card.image.url}` 
+  : `${props.card.image}`;
+
   return (
     <section className="moviesCard app__section">
       <div className="moviesCard__content">
@@ -27,13 +41,13 @@ export function MoviesCard(props) {
           </div>
         </a>
         <button 
-        className={`moviesCard__like ${isLike ? "moviesCard__like_active" : ""}`} 
+        className={buttonClassName} 
         type="button"
         onClick={handleLikeClick} 
         aria-label="лайк" ></button>
       </div>
       <a className="moviesCard__link" href={props.card.trailerLink} target="_blank" rel="noreferrer">
-        <img className="moviesCard__img" src={`https://api.nomoreparties.co${props.card.image.url}`} alt="кадр фильма" />
+        <img className="moviesCard__img" src={imagePath} alt="кадр фильма" />
       </a>
     </section>
   );

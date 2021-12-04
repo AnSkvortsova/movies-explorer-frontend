@@ -70,8 +70,6 @@ function App() {
   }, []);
 
   // фильмы
-  console.log('allCards ', allCards)
-  console.log('sortedCards ', sortedCards)
   console.log('savedCards ', savedCards)
 
   useEffect(() => {
@@ -93,6 +91,16 @@ function App() {
   useEffect(() => {
     localStorage.setItem('sortedCards', JSON.stringify(sortedCards))
   }, [sortedCards]);
+
+  useEffect(() => {
+    if (localStorage.savedCards !== undefined) {
+    setSavedCardsState(JSON.parse(localStorage.savedCards));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('savedCards', JSON.stringify(savedCards))
+  }, [savedCards]);
   
   function getAllMovies() {
       setLoadingState(true);
@@ -108,11 +116,11 @@ function App() {
     setSortedCardsState(sortMovies(allCards, query));
   };
 
-  // лайк
+  // сохранение и удаление фильмов
   function saveMovie(cardData) {
     mainApi.createMovie(cardData)
     .then((res) => {
-      setSavedCardsState(savedCards.concat(res));
+      setSavedCardsState(savedCards.concat(res.data));
     })
     .catch((err) => {console.log(err)})
   };
@@ -120,8 +128,8 @@ function App() {
   function deleteMovie(id) {
     mainApi.removeMovie(id)
     .then(() => {
+      localStorage.removeItem('savedCards')
       getSavedMovies();
-      console.log(1)
     })
     .catch((err) => {console.log(err)})
   };
@@ -129,33 +137,34 @@ function App() {
   function getSavedMovies() {
     mainApi.getMovies()
     .then((res) => {
-      setSavedCardsState(res);
-      console.log(2)
+      setSavedCardsState(res.movies);
     })
     .catch((err) => {console.log(err)})
   };
 
   // проверка авторизации
   useEffect(() => {
-    mainApi.getUserData()
-    .then((res) => {
-      setCurrentUserState({
-        _id: res.data._id,
-        name: res.data.name,
-        email: res.data.email,
+    if(!loggedIn){
+      mainApi.getUserData()
+      .then((res) => {
+        setCurrentUserState({
+          _id: res.data._id,
+          name: res.data.name,
+          email: res.data.email,
+        })
+        setLoggedInState(true);
+        if (location.pathname === '/signin') {
+          history.push('/movies');
+        } else {
+          history.push(location.pathname);
+        }
       })
-      setLoggedInState(true);
-      if (location.pathname === '/signin') {
-        history.push('/movies');
-      } else {
-        history.push(location.pathname);
-      }
-    })
-    .catch((err) => {
-      setErrorState(true);
-      console.log(err);
-    });
-  }, [history, location.pathname]);
+      .catch((err) => {
+        setErrorState(true);
+        console.log(err);
+      })
+    };
+  }, [history, location.pathname, loggedIn]);
 
   // регистрация
   function handleRegisterSubmit(name, email, password) {
@@ -196,7 +205,8 @@ function App() {
         name: '',
         email: '',
       })
-      localStorage.clear();
+      localStorage.removeItem('allMovies');
+      localStorage.removeItem('sortedCards');
       setLoggedInState(false);
       history.push('/');
     })
@@ -218,6 +228,7 @@ function App() {
         <ProtectedRoute  
         path="/movies"
         component = {Movies}
+        page = {"movies"}
         isLoggedIn = {loggedIn}
         onMenuPopup = {handleMenuPopupClick}
         onSearch = {getSortedMovies}
@@ -231,11 +242,14 @@ function App() {
         <ProtectedRoute 
         path="/saved-movies"
         component = {SavedMovies}
+        page = {"saved-movies"}
         isLoggedIn = {loggedIn}
         onMenuPopup={handleMenuPopupClick}
         onSearch = {getSortedMovies}
         onCheckboxChange = {getSortedMovies}
-        cards = {sortedCards}
+        cards = {savedCards}
+        savedCards = {savedCards}
+        deleteMovie = {deleteMovie}
         isLoading = {loading} />
 
         <ProtectedRoute 

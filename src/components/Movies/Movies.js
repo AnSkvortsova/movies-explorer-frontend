@@ -13,12 +13,16 @@ export function Movies(props) {
         <SearchForm 
         onSearch={props.onSearch}
         onCheckboxChange = {props.onCheckboxChange} />
+
         {props.isLoading ? (<Preloader />) : null}
+
         {props.cards.length !== 0 ? (<MoviesCardList 
+          page={props.page}
           cardsData={props.cards} 
           saveMovie={props.saveMovie} 
           savedCards={props.savedCards}
           deleteMovie={props.deleteMovie} />) : null}
+
         {props.cards.length === 0 ? (<p className="movies__text">Ничего не найдено</p>) : null}
       </main>
       <Footer />
