@@ -55,6 +55,17 @@ export const getUserData = () => {
 	}).then((response) => checkResult(response));
 };
 
+export const updateUser = (name, email) => {
+	return fetch(`${MAIN_API_BASE_URL}/users/me`, {
+		method: 'PATCH',
+		credentials: 'include',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({name, email}),
+	}).then((response) => checkResult(response));
+};
+
 export const getMovies = () => {
 	return fetch(`${MAIN_API_BASE_URL}/movies`, {
 		method: 'GET',

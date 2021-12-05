@@ -10,16 +10,16 @@ export function MoviesCard(props) {
   }, [props.card.id, props.savedCards]);
 
   function handleLikeClick() {
-    let deletedCard = props.savedCards.find((item) => item.movieId === props.card.id);
     if(props.page === "movies") {
       if (isLike) {
-        //let deletedCard = props.savedCards.find((item) => item.movieId === props.card.id);
-        props.deleteMovie(deletedCard._id);
+        let dislikedCard = props.savedCards.find((item) => item.movieId === props.card.id);
+        props.deleteMovie(dislikedCard._id);
         return setLikeState(false);
       }
       props.saveMovie(props.card)
       return setLikeState(true);
       }
+    let deletedCard = props.savedCards.find((item) => item.movieId === props.card.movieId);
     props.deleteMovie(deletedCard._id);
   };
 

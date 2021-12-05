@@ -70,8 +70,6 @@ function App() {
   }, []);
 
   // фильмы
-  console.log('savedCards ', savedCards)
-
   useEffect(() => {
     if (localStorage.allMovies !== undefined) {
     setAllCardsState(JSON.parse(localStorage.allMovies));
@@ -211,7 +209,20 @@ function App() {
       history.push('/');
     })
     .catch((err) => console.log(err))
-  }
+  };
+
+  //редактировать профиль
+  function handleEditButton(name, email) {
+    mainApi.updateUser(name, email)
+    .then((res) => {
+      console.log('res ', res)
+      setCurrentUserState({
+          name: res.data.name,
+          email: res.data.email,
+        })
+    })
+    .catch((err) => console.log(err))
+  };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -257,7 +268,8 @@ function App() {
         component = {Profile}
         isLoggedIn = {loggedIn}
         onMenuPopup = {handleMenuPopupClick}
-        onLogoutSubmit = {handleLogout} />
+        onLogoutSubmit = {handleLogout}
+        onEditButton = {handleEditButton} />
 
         <Route path="/signin">
           <Login onLoginSubmit = {handleLoginSubmit} isError={error} />
