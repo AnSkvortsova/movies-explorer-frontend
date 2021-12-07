@@ -7,7 +7,7 @@ const checkResult = (response) => {
   return Promise.reject(`Ошибка: ${response.status}`)
 };
 
-export function search() {
+export function getMoviesData() {
     return fetch(`${MOVIES_API_BASE_URL}/beatfilm-movies`, {
       headers: {'Content-Type': 'application/json'},
     }).then((response) => checkResult(response));

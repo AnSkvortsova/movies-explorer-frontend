@@ -2,6 +2,7 @@ import { React, useState, useEffect } from 'react';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import './App.css';
+import { Navigation } from '../Navigation/Navigation';
 import { Header } from '../Header/Header'; 
 import { Main } from '../Main/Main';
 import { Movies } from '../Movies/Movies';
@@ -102,7 +103,7 @@ function App() {
   
   function getAllMovies() {
       setLoadingState(true);
-      moviesApi.search()
+      moviesApi.getMoviesData()
       .then((data) => {
         setLoadingState(false);
         setAllCardsState(data);
@@ -158,7 +159,6 @@ function App() {
         }
       })
       .catch((err) => {
-        setErrorState(true);
         console.log(err);
       })
     };
@@ -184,7 +184,7 @@ function App() {
       if(res.ok) {
       setLoggedInState(true);
       setErrorState(false);
-			history.push('/movies');
+      history.push('/movies');
       getAllMovies();
     }})
     .catch((err) => {
@@ -207,6 +207,8 @@ function App() {
       localStorage.removeItem('sortedCards');
       setLoggedInState(false);
       history.push('/');
+      window.location.reload();
+
     })
     .catch((err) => console.log(err))
   };
@@ -215,7 +217,6 @@ function App() {
   function handleEditButton(name, email) {
     mainApi.updateUser(name, email)
     .then((res) => {
-      console.log('res ', res)
       setCurrentUserState({
           name: res.data.name,
           email: res.data.email,
@@ -224,13 +225,15 @@ function App() {
     .catch((err) => console.log(err))
   };
 
+  console.log('localStorage ', localStorage)
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
     <div className="app">
       <Switch>
-        <Route exact path="/">
+        <Route exact path="/" >
           <div className="app app_color_pink">
-            <Header />
+            {loggedIn ? <Navigation onMenuPopup = {handleMenuPopupClick} /> : <Header />}
           </div>
           <Main />
           <Footer />

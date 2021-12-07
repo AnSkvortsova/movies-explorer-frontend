@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { FilterCheckbox } from '../FilterCheckbox/FilterCheckbox';
 import searchIcon from '../../images/search-icon.svg'
 
-export function SearchForm(props) {
+export function SearchForm({onCheckboxChange: checkboxChange, ...props}) {
   const [query, setQuery] = useState({
     input: '',
     validate: false,
@@ -15,8 +15,8 @@ export function SearchForm(props) {
   };
 
   useEffect(() => {
-    props.onCheckboxChange(query)
-  }, [query])
+    checkboxChange(query)
+  }, [checkboxChange, query])
 
   function handleCheckboxChange(isShortMovie) {
     setQuery({ ...query, isShortMovie});

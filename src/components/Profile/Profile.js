@@ -74,6 +74,9 @@ export function Profile(props) {
               </Form>
             )}}
         </Formik>
+        
+        {props.isError ? (<p className="profile__formError">Что-то пошло не так...</p>) : ''}
+
         <button 
         className="profile__button profile__button_signout" 
         type="button" 
