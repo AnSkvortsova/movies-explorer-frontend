@@ -5,6 +5,7 @@ import { Preloader } from '../Preloader/Preloader';
 import { Footer } from '../Footer/Footer';
 
 export function SavedMovies(props) {
+  console.log('props ', props)
   return (
     <div className="savedMovies">
       <Navigation onMenuPopup={props.onMenuPopup} />
@@ -19,6 +20,7 @@ export function SavedMovies(props) {
           page={props.page}
           cardsData={props.cards} 
           savedCards={props.savedCards}
+          sortedSavedCards={props.sortedSavedCards}
           deleteMovie={props.deleteMovie} />) : null}
           
         {props.cards.length === 0 ? (<p className="savedMovies__text">Ничего не найдено</p>) : null}

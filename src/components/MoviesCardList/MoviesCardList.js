@@ -8,7 +8,9 @@ export function MoviesCardList(props) {
   const [movieNumber, setMovieNumberState] = useState(7);
   const [number, setNumberState] = useState(7);
 
-  const addCards = props.cardsData.slice(0, movieNumber)
+  console.log(props.sortedSavedCards)
+  const renderList = props.sortedSavedCards.length === 0 ? props.cardsData : props.sortedSavedCards
+  const addCards = renderList.slice(0, movieNumber);
 
   const getElseButtonState = () => {
     if((props.cardsData.length <= 7) || (props.cardsData.length === addCards.length)) {

@@ -13,6 +13,7 @@ import { Login } from '../Login/Login';
 import { Footer } from '../Footer/Footer'; 
 import { PageNotFound } from '../PageNotFound/PageNotFound';
 import { MenuPopup } from '../MenuPopup/MenuPopup';
+import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import { sortMovies } from '../../utils/sortMovies';
@@ -28,6 +29,11 @@ function App() {
   const [allCards, setAllCardsState] = useState([]);
   const [sortedCards, setSortedCardsState] = useState([]);
   const [savedCards, setSavedCardsState] = useState([]);
+  const [sortedSavedCards, setSortedSavedCardsState] = useState([]);
+
+  const [menuPopupOpen, setMenuPopupState] = useState(false);
+  const [infoTooltipPopupOpen, setInfoTooltipPopupState] = useState(false);
+  const [infoTooltip, setInfoTooltipState] = useState(false);
 
   const [loggedIn, setLoggedInState] = useState(false);
   const [loading, setLoadingState] = useState(false);
@@ -39,21 +45,20 @@ function App() {
   });
 
   // попапы
-  const [isMenuPopupOpen, setMenuPopupState] = useState(false);
-
   function handleMenuPopupClick() {
     setMenuPopupState(true);
   }
 
-  function closeMenuPopup() {
+  function closePopup() {
     setMenuPopupState(false);
+    setInfoTooltipPopupState(false);
   }
 
   // обработчик Escape и overlay
   useEffect(() => {
     const closeByEscape = (evt) => {
       if(evt.key === 'Escape') {
-        closeMenuPopup();
+        closePopup();
       };
     };
     document.addEventListener('keydown', closeByEscape);
@@ -63,7 +68,7 @@ function App() {
   useEffect(() => {
     const closeByOverlay = (evt) => {
       if(evt.target.classList.contains('menuPopup_opend')) {
-        closeMenuPopup();
+        closePopup();
       };
     };
     document.addEventListener('click', closeByOverlay);
@@ -100,6 +105,16 @@ function App() {
   useEffect(() => {
     localStorage.setItem('savedCards', JSON.stringify(savedCards))
   }, [savedCards]);
+
+  useEffect(() => {
+    if (localStorage.sortedSavedCards !== undefined) {
+    setSortedSavedCardsState(JSON.parse(localStorage.sortedSavedCards));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('sortedSavedCards', JSON.stringify(sortedSavedCards))
+  }, [sortedSavedCards]);
   
   function getAllMovies() {
       setLoadingState(true);
@@ -111,8 +126,16 @@ function App() {
       .catch((err) => {console.log(err)})
   };
 
-  function getSortedMovies (query) {
+  function getSortedMoviesFromAllCards (query) {
+    setLoadingState(true);
     setSortedCardsState(sortMovies(allCards, query));
+    setLoadingState(false);
+  };
+
+  function getSortedMoviesFromSavedCards (query) {
+    setLoadingState(true);
+    setSortedSavedCardsState(sortMovies(savedCards, query));
+    setLoadingState(false);
   };
 
   // сохранение и удаление фильмов
@@ -205,6 +228,7 @@ function App() {
       })
       localStorage.removeItem('allMovies');
       localStorage.removeItem('sortedCards');
+      localStorage.removeItem('sortedSavedCards')
       setLoggedInState(false);
       history.push('/');
       window.location.reload();
@@ -217,15 +241,24 @@ function App() {
   function handleEditButton(name, email) {
     mainApi.updateUser(name, email)
     .then((res) => {
-      setCurrentUserState({
+      setInfoTooltipPopupState(true);
+      if(res) {
+        setInfoTooltipState(true)
+        setCurrentUserState({
           name: res.data.name,
           email: res.data.email,
         })
+      }
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err);
+      setInfoTooltipPopupState(true);
+      setInfoTooltipState(false);
+    })
   };
 
   console.log('localStorage ', localStorage)
+  console.log('sortedSavedCards ', sortedSavedCards)
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -245,11 +278,12 @@ function App() {
         page = {"movies"}
         isLoggedIn = {loggedIn}
         onMenuPopup = {handleMenuPopupClick}
-        onSearch = {getSortedMovies}
-        onCheckboxChange = {getSortedMovies}
+        onSearch = {getSortedMoviesFromAllCards}
+        onCheckboxChange = {getSortedMoviesFromAllCards}
         cards = {sortedCards}
         saveMovie = {saveMovie}
         savedCards = {savedCards}
+        sortedSavedCards = {sortedSavedCards}
         deleteMovie = {deleteMovie}
         isLoading = {loading} />
 
@@ -259,10 +293,11 @@ function App() {
         page = {"saved-movies"}
         isLoggedIn = {loggedIn}
         onMenuPopup={handleMenuPopupClick}
-        onSearch = {getSortedMovies}
-        onCheckboxChange = {getSortedMovies}
+        onSearch = {getSortedMoviesFromSavedCards}
+        onCheckboxChange = {getSortedMoviesFromSavedCards}
         cards = {savedCards}
         savedCards = {savedCards}
+        sortedSavedCards = {sortedSavedCards}
         deleteMovie = {deleteMovie}
         isLoading = {loading} />
 
@@ -288,8 +323,13 @@ function App() {
       </Switch>
 
     <MenuPopup 
-      isOpen={isMenuPopupOpen}
-      onClose={closeMenuPopup}
+      isOpen={menuPopupOpen}
+      onClose={closePopup}
+    />
+    <InfoTooltip
+      isOpen={infoTooltipPopupOpen}
+      onClose={closePopup}
+      isInfoTooltip={infoTooltip}
     />
     </div>
     </CurrentUserContext.Provider>

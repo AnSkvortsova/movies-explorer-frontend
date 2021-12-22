@@ -8,6 +8,7 @@
 @import url(./components/Navigation/Navigation.css);
 @import url(./components/AccountButton/AccountButton.css);
 @import url(./components/MenuPopup/MenuPopup.css);
+@import url(./components/InfoTooltip/InfoTooltip.css);
 
 @import url(./components/Promo/Promo.css);
 @import url(./components/AboutProject/AboutProject.css);

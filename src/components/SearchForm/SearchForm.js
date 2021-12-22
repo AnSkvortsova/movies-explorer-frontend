@@ -15,8 +15,8 @@ export function SearchForm({onCheckboxChange: checkboxChange, ...props}) {
   };
 
   useEffect(() => {
-    checkboxChange(query)
-  }, [checkboxChange, query])
+      checkboxChange(query)
+  }, [query.isShortMovie]);
 
   function handleCheckboxChange(isShortMovie) {
     setQuery({ ...query, isShortMovie});
