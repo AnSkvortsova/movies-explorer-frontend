@@ -127,16 +127,18 @@ function App() {
   };
 
   function getSortedMoviesFromAllCards (query) {
-    setLoadingState(true);
-    setSortedCardsState(sortMovies(allCards, query));
-    setLoadingState(false);
+    if (query) {
+      setSortedCardsState(sortMovies(allCards, query));
+    };
   };
 
   function getSortedMoviesFromSavedCards (query) {
-    setLoadingState(true);
     setSortedSavedCardsState(sortMovies(savedCards, query));
-    setLoadingState(false);
   };
+
+  function getSortedMoviesByCheckbox (query) {
+    setSortedCardsState(sortMovies(sortedCards, query));
+  }
 
   // сохранение и удаление фильмов
   function saveMovie(cardData) {
@@ -204,12 +206,16 @@ function App() {
   function handleLoginSubmit(email, password) {
     mainApi.login(email, password)
     .then((res) => {
-      if(res.ok) {
+      setCurrentUserState({
+        _id: res.data._id,
+        name: res.data.name,
+        email: res.data.email,
+      });
       setLoggedInState(true);
       setErrorState(false);
       history.push('/movies');
       getAllMovies();
-    }})
+    })
     .catch((err) => {
       setLoggedInState(false);
       setErrorState(true);
@@ -257,9 +263,6 @@ function App() {
     })
   };
 
-  console.log('localStorage ', localStorage)
-  console.log('sortedSavedCards ', sortedSavedCards)
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
     <div className="app">
@@ -279,7 +282,7 @@ function App() {
         isLoggedIn = {loggedIn}
         onMenuPopup = {handleMenuPopupClick}
         onSearch = {getSortedMoviesFromAllCards}
-        onCheckboxChange = {getSortedMoviesFromAllCards}
+        onCheckboxChange = {getSortedMoviesByCheckbox}
         cards = {sortedCards}
         saveMovie = {saveMovie}
         savedCards = {savedCards}

@@ -102,6 +102,10 @@
   .searchForm__checkboxSection {
     padding: 26px 20px;
   }
+
+  .searchForm__error {
+    left: 63px;
+  }
 }
 
 @media (max-width: 740px) {
@@ -131,5 +135,9 @@
   .searchForm__checkboxMobile {
     display: block;
     margin-bottom: 45px;
+  }
+
+  .searchForm__error {
+    left: 22px;
   }
 }

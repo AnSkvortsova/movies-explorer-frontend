@@ -8,8 +8,10 @@ export function MoviesCardList(props) {
   const [movieNumber, setMovieNumberState] = useState(7);
   const [number, setNumberState] = useState(7);
 
-  console.log(props.sortedSavedCards)
-  const renderList = props.sortedSavedCards.length === 0 ? props.cardsData : props.sortedSavedCards
+  const renderList = props.page === "movies" 
+    ? props.cardsData 
+    : (props.sortedSavedCards.length === 0 ? props.cardsData : props.sortedSavedCards);
+    
   const addCards = renderList.slice(0, movieNumber);
 
   const getElseButtonState = () => {

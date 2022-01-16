@@ -68,7 +68,9 @@ export function Profile(props) {
 
                 <button 
                 className="profile__button" 
-                disabled={!props.isValid ? "disabled" : ''} 
+                disabled={props.values.name === currentUser.name ? "disabled" 
+                  : props.values.email === currentUser.email ? "disabled" 
+                  : !props.isValid ? "disabled" : ''} 
                 aria-label="Редактировать" 
                 type="submit">Редактировать</button>
               </Form>

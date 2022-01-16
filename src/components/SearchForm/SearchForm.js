@@ -11,7 +11,7 @@ export function SearchForm({onCheckboxChange: checkboxChange, ...props}) {
   });
 
   function handleInputChange(evt) {
-    setQuery({ ...query, input: evt.target.value });
+    setQuery({ ...query, input: evt.target.value, validate: false });
   };
 
   useEffect(() => {

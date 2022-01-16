@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react/cjs/react.development';
+import { React, useState, useEffect } from 'react';
 
 import { getTime } from '../../utils/getTime';
 

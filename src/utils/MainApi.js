@@ -27,12 +27,7 @@ export const login = (email, password) => {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify({email, password}),
-	}).then((response) => {
-    if(response.ok) {
-      return response;
-    }
-    return Promise.reject(`Ошибка: ${response.status}`)
-  });
+	}).then((response) => checkResult(response));
 };
 
 export const logout = () => {
