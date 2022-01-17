@@ -137,7 +137,7 @@ function App() {
   };
 
   function getSortedMoviesByCheckbox (query) {
-    setSortedCardsState(sortMovies(sortedCards, query));
+    setSortedSavedCardsState(sortMovies(sortedCards, query));
   }
 
   // сохранение и удаление фильмов
