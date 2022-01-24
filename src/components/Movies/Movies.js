@@ -11,7 +11,9 @@ export function Movies(props) {
       <Navigation onMenuPopup = {props.onMenuPopup} />
       <main className="movies__main">
         <SearchForm 
-        onSearch={props.onSearch}
+        query = {props.query}
+        onInputChange = {props.onInputChange}
+        onSubmit = {props.onSubmit}
         onCheckboxChange = {props.onCheckboxChange} />
 
         {props.isLoading ? (<Preloader />) : null}

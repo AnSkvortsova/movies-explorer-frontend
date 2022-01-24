@@ -1,19 +1,21 @@
 import { React, useState, useEffect } from 'react';
 
 import { MoviesCard } from '../MoviesCard/MoviesCard';
+import { DESCTOP_ADDITIONAL_CARDS } from '../../utils/constance';
+import { MOBILE_ADDITIONAL_CARDS } from '../../utils/constance';
 
 export function MoviesCardList(props) {
   const width = window.innerWidth;
   const [elseButton, setElseButtonState] = useState(false);
-  const [movieNumber, setMovieNumberState] = useState(7);
-  const [number, setNumberState] = useState(7);
+  const [movieNumber, setMovieNumberState] = useState(DESCTOP_ADDITIONAL_CARDS);
+  const [number, setNumberState] = useState(DESCTOP_ADDITIONAL_CARDS);
 
   const renderList = props.sortedSavedCards.length === 0 ? props.cardsData : props.sortedSavedCards;
     
   const addCards = renderList.slice(0, movieNumber);
 
   const getElseButtonState = () => {
-    if((props.cardsData.length <= 7) || (props.cardsData.length === addCards.length)) {
+    if((props.cardsData.length <= DESCTOP_ADDITIONAL_CARDS) || (props.cardsData.length === addCards.length)) {
       return setElseButtonState(false);
     }
     setElseButtonState(true);
@@ -29,10 +31,10 @@ export function MoviesCardList(props) {
 
   useEffect(() => {
     if(width > 740) {
-      setNumberState(7)
+      setNumberState(DESCTOP_ADDITIONAL_CARDS)
     }
     if(width < 740) {
-      setNumberState(5)
+      setNumberState(MOBILE_ADDITIONAL_CARDS)
     }
   }, [width]);
 

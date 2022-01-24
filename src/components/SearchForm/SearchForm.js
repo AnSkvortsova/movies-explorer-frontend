@@ -1,36 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { FilterCheckbox } from '../FilterCheckbox/FilterCheckbox';
 import searchIcon from '../../images/search-icon.svg'
 
-export function SearchForm({onCheckboxChange: checkboxChange, ...props}) {
-  const [query, setQuery] = useState({
-    input: '',
-    validate: false,
-    isShortMovie: false,
-  });
+export function SearchForm(props) {
+  const { input, validate } = props.query;
 
   function handleInputChange(evt) {
-    setQuery({ ...query, input: evt.target.value, validate: false });
-  };
-
-  useEffect(() => {
-      checkboxChange(query)
-  }, [query.isShortMovie]);
-
-  function handleCheckboxChange(isShortMovie) {
-    setQuery({ ...query, isShortMovie});
+    props.onInputChange(evt)
   };
 
   function handleSubmit(evt) {
-    evt.preventDefault();
-
-    if(!query.input){
-      return setQuery({...query, validate: true});
-    };
-
-    props.onSearch(query);
-    query.input = '';
+    props.onSubmit(evt);
   };
 
   return (
@@ -42,10 +23,10 @@ export function SearchForm({onCheckboxChange: checkboxChange, ...props}) {
             className="searchForm__input" 
             placeholder="Фильм" 
             type="search" 
-            value={query.input || ''}
+            value={input || ''}
             onChange={handleInputChange}
             required />
-          {query.validate && (
+          {validate && (
             <span className="searchForm__error">
               Нужно ввести ключевое слово
             </span>
@@ -59,11 +40,11 @@ export function SearchForm({onCheckboxChange: checkboxChange, ...props}) {
             >Найти</button>
         </div>
         <div className="searchForm__checkboxSection">
-          <FilterCheckbox handleCheckboxChange={handleCheckboxChange} />
+          <FilterCheckbox query = {props.query} onCheckboxChange = {props.onCheckboxChange} />
         </div>
       </form>
       <div className="searchForm__checkboxMobile">
-        <FilterCheckbox handleCheckboxChange={handleCheckboxChange} />
+        <FilterCheckbox query = {props.query} onCheckboxChange = {props.onCheckboxChange} />
       </div>  
       <div className="app__lineG"></div>
     </section>

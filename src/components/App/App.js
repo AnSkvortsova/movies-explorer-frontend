@@ -31,6 +31,17 @@ function App() {
   const [savedCards, setSavedCardsState] = useState([]);
   const [sortedSavedCards, setSortedSavedCardsState] = useState([]);
 
+  const [queryMovies, setQueryMovies] = useState({
+    input: '',
+    validate: false,
+    isShortMovie: false,
+  });
+  const [querySavedMovies, setQuerySavedMovies] = useState({
+    input: '',
+    validate: false,
+    isShortMovie: false,
+  });
+
   const [menuPopupOpen, setMenuPopupState] = useState(false);
   const [infoTooltipPopupOpen, setInfoTooltipPopupState] = useState(false);
   const [infoTooltip, setInfoTooltipState] = useState(false);
@@ -138,7 +149,69 @@ function App() {
 
   function getSortedMoviesByCheckbox (query) {
     setSortedSavedCardsState(sortMovies(sortedCards, query));
-  }
+  };
+
+  //поиск фильмов
+  useEffect(() => {
+    if (localStorage.queryMovies !== undefined) {
+    setQueryMovies(JSON.parse(localStorage.queryMovies));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('queryMovies', JSON.stringify(queryMovies))
+  }, [queryMovies]);
+
+  useEffect(() => {
+    if (localStorage.querySavedMovies !== undefined) {
+    setQuerySavedMovies(JSON.parse(localStorage.querySavedMovies));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('querySavedMovies', JSON.stringify(querySavedMovies))
+  }, [querySavedMovies]);
+
+  function handleInputMoviesChange(evt) {
+    setQueryMovies({ ...queryMovies, input: evt.target.value, validate: false });
+  };
+
+  function handleInputSavedMoviesChange(evt) {
+    setQuerySavedMovies({ ...querySavedMovies, input: evt.target.value, validate: false });
+  };
+
+  function handleMoviesSearchSubmit(evt) {
+    evt.preventDefault();
+    if(!queryMovies.input){
+      return setQueryMovies({...queryMovies, validate: true});
+    };
+    getSortedMoviesFromAllCards(queryMovies);
+  };
+
+  function handleSavedMoviesSearchSubmit(evt) {
+    evt.preventDefault();
+    if(!querySavedMovies.input){
+      return setQuerySavedMovies({...querySavedMovies, validate: true});
+    };
+    getSortedMoviesFromSavedCards(querySavedMovies);
+  };
+
+  function handleCheckboxMoviesChange(isShortMovie) {
+    setQueryMovies({ ...queryMovies, isShortMovie});
+  };
+
+  function handleCheckboxSavedMoviesChange(isShortMovie) {
+    setQuerySavedMovies({ ...querySavedMovies, isShortMovie});
+  };
+
+  useEffect(() => {
+      getSortedMoviesByCheckbox(queryMovies)
+  }, [queryMovies.isShortMovie]);
+
+  useEffect(() => {
+      getSortedMoviesFromSavedCards(querySavedMovies)
+  }, [querySavedMovies.isShortMovie]);
+
 
   // сохранение и удаление фильмов
   function saveMovie(cardData) {
@@ -177,10 +250,12 @@ function App() {
           email: res.data.email,
         })
         setLoggedInState(true);
-        if (location.pathname === '/signin') {
+        if (location.pathname === '/signin' || location.pathname === '/signup' || location.pathname === '/movies') {
           history.push('/movies');
-        } else {
-          history.push(location.pathname);
+        } else if (location.pathname === '/saved-movies') {
+          history.push('/saved-movies');
+        } else if (location.pathname === '/profile') {
+          history.push('/profile')
         }
       })
       .catch((err) => {
@@ -234,7 +309,9 @@ function App() {
       })
       localStorage.removeItem('allMovies');
       localStorage.removeItem('sortedCards');
-      localStorage.removeItem('sortedSavedCards')
+      localStorage.removeItem('sortedSavedCards');
+      localStorage.removeItem('queryMovies');
+      localStorage.removeItem('querySavedMovies');
       setLoggedInState(false);
       history.push('/');
       window.location.reload();
@@ -281,13 +358,15 @@ function App() {
         page = {"movies"}
         isLoggedIn = {loggedIn}
         onMenuPopup = {handleMenuPopupClick}
-        onSearch = {getSortedMoviesFromAllCards}
-        onCheckboxChange = {getSortedMoviesByCheckbox}
         cards = {sortedCards}
         saveMovie = {saveMovie}
         savedCards = {savedCards}
         sortedSavedCards = {sortedSavedCards}
         deleteMovie = {deleteMovie}
+        query = {queryMovies}
+        onInputChange = {handleInputMoviesChange}
+        onSubmit = {handleMoviesSearchSubmit}
+        onCheckboxChange = {handleCheckboxMoviesChange}
         isLoading = {loading} />
 
         <ProtectedRoute 
@@ -296,12 +375,14 @@ function App() {
         page = {"saved-movies"}
         isLoggedIn = {loggedIn}
         onMenuPopup={handleMenuPopupClick}
-        onSearch = {getSortedMoviesFromSavedCards}
-        onCheckboxChange = {getSortedMoviesFromSavedCards}
         cards = {savedCards}
         savedCards = {savedCards}
         sortedSavedCards = {sortedSavedCards}
         deleteMovie = {deleteMovie}
+        query = {querySavedMovies}
+        onInputChange = {handleInputSavedMoviesChange}
+        onSubmit = {handleSavedMoviesSearchSubmit}
+        onCheckboxChange = {handleCheckboxSavedMoviesChange}
         isLoading = {loading} />
 
         <ProtectedRoute 
