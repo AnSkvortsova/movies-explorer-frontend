@@ -10,12 +10,21 @@ export function MoviesCardList(props) {
   const [movieNumber, setMovieNumberState] = useState(DESCTOP_ADDITIONAL_CARDS);
   const [number, setNumberState] = useState(DESCTOP_ADDITIONAL_CARDS);
 
-  const renderList = props.sortedSavedCards.length === 0 ? props.cardsData : props.sortedSavedCards;
-    
+  const renderList = defineRenderList();
   const addCards = renderList.slice(0, movieNumber);
 
+  function defineRenderList() {
+    if(props.isShortMovie) {
+      return props.shortCards;
+    }
+    if(props.page === 'saved-movies' && props.query.input !== '' && props.sortedSavedCards.length !== 0) {
+      return props.sortedSavedCards;
+    }
+    return props.cardsData;
+  };
+
   const getElseButtonState = () => {
-    if((props.cardsData.length <= DESCTOP_ADDITIONAL_CARDS) || (props.cardsData.length === addCards.length)) {
+    if((renderList.length <= DESCTOP_ADDITIONAL_CARDS) || (renderList.length === addCards.length)) {
       return setElseButtonState(false);
     }
     setElseButtonState(true);
@@ -49,6 +58,7 @@ export function MoviesCardList(props) {
         savedCards={props.savedCards}
         deleteMovie={props.deleteMovie} />
       ))}
+
       {elseButton 
       ? <button 
           className="moviesCardList__button" 
@@ -56,6 +66,8 @@ export function MoviesCardList(props) {
           aria-label="ещё" 
           >Ещё</button> 
       : ''}
+      
+      {renderList.length === 0 ? (<p className="moviesCardList__text">Ничего не найдено</p>) : null}
     </section>
   );
 }

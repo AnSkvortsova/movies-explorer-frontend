@@ -5,7 +5,7 @@ export function FilterCheckbox(props) {
 
   return (
     <div className="filterCheckbox">
-      <input className="filterCheckbox__switch" checked={props.query.isShortMovie} type="checkbox" id="switch" onChange={handleCheckbox} />
+      <input className="filterCheckbox__switch" checked={props.isShortMovie} type="checkbox" id="switch" onChange={handleCheckbox} />
       <label className="filterCheckbox__label" htmlFor="switch">Короткометражки</label>
     </div>
   );

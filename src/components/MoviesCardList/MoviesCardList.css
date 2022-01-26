@@ -23,6 +23,13 @@
   cursor: pointer;
 }
 
+.moviesCardList__text {
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+  margin: 60px 0 0;
+}
+
 @media (max-width: 1180px) {
   .moviesCardList {
     padding: 60px 0 30px;

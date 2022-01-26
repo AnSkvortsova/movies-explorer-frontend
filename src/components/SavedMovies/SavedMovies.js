@@ -13,18 +13,20 @@ export function SavedMovies(props) {
         query = {props.query}
         onInputChange = {props.onInputChange}
         onSubmit = {props.onSubmit}
+        isShortMovie = {props.isShortMovie}
         onCheckboxChange = {props.onCheckboxChange} />
 
         {props.isLoading ? (<Preloader />) : null}
 
         {props.cards.length !== 0 ? (<MoviesCardList 
           page={props.page}
+          query = {props.query}
           cardsData={props.cards} 
           savedCards={props.savedCards}
           sortedSavedCards={props.sortedSavedCards}
+          isShortMovie = {props.isShortMovie}
+          shortCards = {props.shortCards}
           deleteMovie={props.deleteMovie} />) : null}
-          
-        {props.cards.length === 0 ? (<p className="savedMovies__text">Ничего не найдено</p>) : null}
       </main>
       <Footer />
     </div>

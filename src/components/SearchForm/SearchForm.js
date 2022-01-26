@@ -40,11 +40,11 @@ export function SearchForm(props) {
             >Найти</button>
         </div>
         <div className="searchForm__checkboxSection">
-          <FilterCheckbox query = {props.query} onCheckboxChange = {props.onCheckboxChange} />
+          <FilterCheckbox isShortMovie = {props.isShortMovie} onCheckboxChange = {props.onCheckboxChange} />
         </div>
       </form>
       <div className="searchForm__checkboxMobile">
-        <FilterCheckbox query = {props.query} onCheckboxChange = {props.onCheckboxChange} />
+        <FilterCheckbox isShortMovie = {props.isShortMovie} onCheckboxChange = {props.onCheckboxChange} />
       </div>  
       <div className="app__lineG"></div>
     </section>
