@@ -1,4 +1,4 @@
-.profile {
+.profile__main {
   width: 410px;
   padding: 74px 0 70px;
   margin: 0 auto;
@@ -53,7 +53,23 @@
   flex-basis: 80%;
 }
 .profile__input::placeholder {
-  color: #000000;
+  color: #A0A0A0;
+}
+
+.profile__error {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF4062;
+  margin-bottom: 6px;
+}
+
+.profile__formError {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #FF4062;
+  text-align: center;
 }
 
 .profile__button {
@@ -78,9 +94,12 @@
 	opacity: 0.6;
 	transition: opacity 0.2s linear;
 }
+.profile__button:disabled {
+  color: #A0A0A0;
+}
 
 @media (max-width: 460px) {
-  .profile {
+  .profile__main {
     width: 260px;
     padding: 70px 0 40px;
   }

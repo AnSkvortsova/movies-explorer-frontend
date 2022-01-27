@@ -8,6 +8,10 @@
   border-radius: 9px;
   margin-bottom: 69px;
 }
+.searchForm__form:focus-within {
+  box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.2s linear;
+}
 
 .searchForm__flex {
   display: flex;
@@ -42,6 +46,17 @@
   color: #A0A0A0;
   background-color: #FDFDFD;
   outline: none;
+}
+
+.searchForm__error {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF4062;
+  padding-bottom: 6px;
+  position: absolute;
+  left: 56px;
+  bottom: 6px;
 }
 
 .searchForm__button {
@@ -87,6 +102,10 @@
   .searchForm__checkboxSection {
     padding: 26px 20px;
   }
+
+  .searchForm__error {
+    left: 63px;
+  }
 }
 
 @media (max-width: 740px) {
@@ -116,5 +135,9 @@
   .searchForm__checkboxMobile {
     display: block;
     margin-bottom: 45px;
+  }
+
+  .searchForm__error {
+    left: 22px;
   }
 }
